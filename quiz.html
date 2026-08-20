@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evaluación - Capacitación CODELCO</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Estilos Modernos para la Evaluación Interactiva CODELCO */
+    :root {
+      --quiz-accent: #ea580c;
+      --quiz-accent-hover: #c2410c;
+      --quiz-accent-light: #fff7ed;
+      --quiz-accent-border: #fed7aa;
+    }
+
+    .quiz-interactive-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      width: 100%;
+      text-align: left;
+    }
+
+    /* Tarjeta Principal de la Pregunta Activa */
+    .quiz-question-card {
+      background-color: var(--surface-color);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow-md);
+      position: relative;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .question-badge-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .question-counter-badge {
+      background-color: var(--quiz-accent-light);
+      color: var(--quiz-accent);
+      border: 1px solid var(--quiz-accent-border);
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .quiz-question-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.45;
+      margin-bottom: 1.5rem;
+      border-left: 4px solid var(--quiz-accent);
+      padding-left: 1rem;
+    }
+
+    /* Lista de Alternativas Interactivas */
+    .quiz-options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .quiz-option-btn {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.1rem 1.25rem;
+      background-color: #ffffff;
+      border: 2px solid var(--border-color);
+      border-radius: 10px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      width: 100%;
+      position: relative;
+    }
+
+    .quiz-option-btn:hover:not(:disabled) {
+      border-color: var(--quiz-accent);
+      background-color: var(--quiz-accent-light);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .quiz-option-letter {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background-color: #f1f5f9;
+      border: 1.5px solid #cbd5e1;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+
+    .quiz-option-btn:hover:not(:disabled) .quiz-option-letter {
+      background-color: var(--quiz-accent);
+      border-color: var(--quiz-accent);
+      color: #ffffff;
+    }
+
+    .quiz-option-text {
+      font-size: 1rem;
+      color: var(--text-main);
+      font-weight: 600;
+      line-height: 1.4;
+      flex: 1;
+    }
+
+    /* Estados de la opción tras responder */
+    .quiz-option-btn.opt-correct {
+      background-color: #f0fdf4 !important;
+      border-color: #16a34a !important;
+      cursor: default;
+    }
+
+    .quiz-option-btn.opt-correct .quiz-option-letter {
+      background-color: #16a34a !important;
+      border-color: #16a34a !important;
+      color: #ffffff !important;
+    }
+
+    .quiz-option-btn.opt-incorrect {
+      background-color: #fef2f2 !important;
+      border-color: #dc2626 !important;
+      cursor: default;
+    }
+
+    .quiz-option-btn.opt-incorrect .quiz-option-letter {
+      background-color: #dc2626 !important;
+      border-color: #dc2626 !important;
+      color: #ffffff !important;
+    }
+
+    .quiz-option-btn:disabled {
+      cursor: default;
+      opacity: 0.85;
+    }
+
+    /* Panel de Retroalimentación Inmediata */
+    .quiz-feedback-box {
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-top: 1.25rem;
+      animation: slideUp 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .quiz-feedback-box.correct {
+      background-color: #f0fdf4;
+      border: 1.5px solid #bbf7d0;
+      border-left: 6px solid #16a34a;
+    }
+
+    .quiz-feedback-box.incorrect {
+      background-color: #fef2f2;
+      border: 1.5px solid #fecaca;
+      border-left: 6px solid #dc2626;
+    }
+
+    .feedback-title-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+
+    .quiz-feedback-box.correct .feedback-title-row {
+      color: #15803d;
+    }
+
+    .quiz-feedback-box.incorrect .feedback-title-row {
+      color: #b91c1c;
+    }
+
+    .feedback-explanation-text {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      line-height: 1.5;
+      background-color: rgba(255, 255, 255, 0.7);
+      padding: 0.85rem 1rem;
+      border-radius: 6px;
+    }
+
+    .feedback-action-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 0.5rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navegación Superior -->
+  <header class="navbar">
+    <a href="index.html" class="navbar-brand" style="display: flex; align-items: center; gap: 0.75rem; text-decoration: none;">
+      <img src="https://imgs.search.brave.com/D39xx_voRVtM8QEjelP6Mo_TQJs_8kag9RvjVnLn0g0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly92ZWN0/b3JzZWVrLmNvbS93/cC1jb250ZW50L3Vw/bG9hZHMvMjAyMy8w/OS9Db2RlbGNvLUxv/Z28tVmVjdG9yLnN2/Zy0ucG5n" alt="CODELCO" class="navbar-logo" style="height: 38px; width: auto; object-fit: contain; display: block;" referrerPolicy="no-referrer">
+      <div style="display: flex; flex-direction: column; line-height: 1.1; border-left: 1.5px solid var(--border-color); padding-left: 0.65rem;">
+        <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em;">Capacitación de Seguridad</span>
+      </div>
+    </a>
+    <div id="participant-badge" class="badge badge-info" style="font-size: 0.9rem;">
+      Cargando participante...
+    </div>
+  </header>
+
+  <!-- Contenedor Principal -->
+  <main class="container">
+    
+    <!-- Barra de Secuencia de Quizzes -->
+    <div class="quiz-steps" id="steps-bar">
+      <div class="quiz-step" id="step-0">
+        <div class="step-circle">1</div>
+        <div class="step-label">Quiz 1</div>
+      </div>
+      <div class="quiz-step" id="step-1">
+        <div class="step-circle">2</div>
+        <div class="step-label">Quiz 2</div>
+      </div>
+      <div class="quiz-step" id="step-2">
+        <div class="step-circle">3</div>
+        <div class="step-label">Quiz 3</div>
+      </div>
+      <div class="quiz-step" id="step-3">
+        <div class="step-circle">4</div>
+        <div class="step-label">Quiz 4</div>
+      </div>
+      <div class="quiz-step" id="step-4">
+        <div class="step-circle">5</div>
+        <div class="step-label">Examen Final</div>
+      </div>
+    </div>
+
+    <!-- Alerta de Advertencia -->
+    <div id="alert-quiz" class="alert alert-danger" style="display: none;">
+      <span id="alert-quiz-text">Por favor responda todas las preguntas para continuar.</span>
+    </div>
+
+    <!-- Card de Evaluación Activa -->
+    <div class="card" id="quiz-card">
+      <div class="card-header">
+        <h1 class="card-title" id="quiz-title">Cargando Evaluación...</h1>
+        <p class="card-subtitle" id="quiz-description">Obteniendo preguntas desde Firebase Realtime Database...</p>
+      </div>
+
+      <!-- Contenedor Dinámico de Preguntas Interactivas -->
+      <form id="form-quiz" onsubmit="return false;">
+        <div id="questions-container">
+          <!-- Las preguntas de Firebase se renderizan aquí dinámicamente -->
+        </div>
+      </form>
+    </div>
+
+    <!-- Pantalla de Resultado Final (Oculta por defecto) -->
+    <div class="card" id="result-card" style="display: none; text-align: center; padding: 2.5rem 1.5rem;">
+      <div style="max-width: 600px; margin: 0 auto;">
+        <div id="result-icon" style="font-size: 3.5rem; margin-bottom: 0.5rem;">🎉</div>
+        <h2 class="card-title" id="result-title">¡Capacitación Finalizada!</h2>
+        <p class="card-subtitle" id="result-subtitle" style="margin-bottom: 1.5rem;">Resultados registrados exitosamente en Firebase.</p>
+
+        <div class="participant-summary-grid" style="text-align: left;">
+          <div>
+            <div class="summary-label">Participante</div>
+            <div class="summary-value" id="res-nombre">-</div>
+          </div>
+          <div>
+            <div class="summary-label">RUT</div>
+            <div class="summary-value" id="res-rut">-</div>
+          </div>
+          <div>
+            <div class="summary-label">Porcentaje</div>
+            <div class="summary-value" id="res-porcentaje">0%</div>
+          </div>
+          <div>
+            <div class="summary-label">Estado</div>
+            <div class="summary-value" id="res-estado">-</div>
+          </div>
+          <div>
+            <div class="summary-label">Correctas</div>
+            <div class="summary-value" id="res-correctas">0 / 0</div>
+          </div>
+          <div>
+            <div class="summary-label">Fecha y Hora</div>
+            <div class="summary-value" id="res-fechahora">-</div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem;">
+          <a href="dashboard.html" class="btn btn-primary">
+            Ver Dashboard Estudiante
+          </a>
+          <a href="profesor.html" class="btn btn-secondary">
+            Ver Dashboard Profesor
+          </a>
+          <a href="index.html" class="btn btn-outline" id="btn-nueva-capacitacion">
+            Volver al Inicio
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de Recuperación / Reanudación de Evaluación -->
+    <div id="modal-resume-quiz" class="modal-overlay" style="display: none;">
+      <div class="modal-card resume-modal-card" style="max-width: 480px; text-align: center; padding: 2.25rem 2rem;">
+        <div style="font-size: 3rem; margin-bottom: 0.75rem;">💾</div>
+        <h2 style="font-size: 1.35rem; font-weight: 900; color: var(--text-main); margin-bottom: 0.5rem;">
+          Progreso Guardado Detectado
+        </h2>
+        <p id="resume-modal-desc" style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.75rem;">
+          Tienes una evaluación en curso. ¿Deseas continuar desde donde lo dejaste o comenzar desde el inicio?
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <button type="button" id="btn-resume-continue" class="btn btn-primary" style="width: 100%; padding: 0.85rem; font-weight: 800; font-size: 1rem; border-radius: 8px;">
+            Continuar donde quedé &rarr;
+          </button>
+          <button type="button" id="btn-resume-restart" class="btn btn-outline" style="width: 100%; padding: 0.75rem; font-weight: 700; font-size: 0.9rem; border-radius: 8px; color: #64748b;">
+            Comenzar de nuevo (Reiniciar progreso)
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <p>marcelo briceño 2026 &copy; Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- Lógica en JS puro ES6 -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>

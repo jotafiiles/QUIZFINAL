@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CODELCO - Ranking de Capacitación de Seguridad</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Navegación Superior -->
+  <header class="navbar">
+    <a href="index.html" class="navbar-brand" style="display: flex; align-items: center; gap: 0.75rem; text-decoration: none;">
+      <img src="https://imgs.search.brave.com/D39xx_voRVtM8QEjelP6Mo_TQJs_8kag9RvjVnLn0g0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly92ZWN0/b3JzZWVrLmNvbS93/cC1jb250ZW50L3Vw/bG9hZHMvMjAyMy8w/OS9Db2RlbGNvLUxv/Z28tVmVjdG9yLnN2/Zy0ucG5n" alt="CODELCO" class="navbar-logo" style="height: 38px; width: auto; object-fit: contain; display: block;" referrerPolicy="no-referrer">
+      <div style="display: flex; flex-direction: column; line-height: 1.1; border-left: 1.5px solid var(--border-color); padding-left: 0.65rem;">
+        <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em;">Capacitación de Seguridad</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-link active">Inicio</a></li>
+      <li><a href="registro.html" class="nav-link">Registro</a></li>
+      <li><a href="dashboard.html" class="nav-link">Dashboard Estudiante</a></li>
+      <li><a href="profesor.html" class="nav-link btn-header">Dashboard Profesor</a></li>
+    </ul>
+  </header>
+
+  <!-- Contenedor Principal Ultra Limpio -->
+  <main class="container container-wide" style="max-width: 960px; padding: 2rem 1.25rem 4rem 1.25rem;">
+    
+    <!-- Encabezado Principal CODELCO -->
+    <section class="codelco-hero-minimal" style="text-align: center; margin-bottom: 2.5rem;">
+      <div style="display: inline-flex; align-items: center; gap: 0.5rem; background-color: #fff7ed; border: 1px solid #fed7aa; color: #ea580c; padding: 0.35rem 1rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem;">
+        <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background-color: #ea580c; animation: pulse 1.8s infinite;"></span>
+        <span>CODELCO • PREVENCIÓN DE RIESGOS</span>
+      </div>
+      
+      <h1 style="font-size: 2.5rem; font-weight: 950; color: var(--text-main); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 0.5rem; text-transform: uppercase;">
+        Capacitación de Seguridad
+      </h1>
+      
+      <p style="font-size: 1.15rem; font-weight: 600; color: #ea580c; margin-bottom: 1.5rem;">
+        "¿Quién domina la capacitación?"
+      </p>
+
+      <!-- Botón de acción principal (Comenzar / Continuar) -->
+      <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.5rem;">
+        <a href="registro.html" id="btn-hero-comenzar" class="btn-hero-primary" style="padding: 0.9rem 2rem; font-size: 1.05rem; font-weight: 800; border-radius: 12px; box-shadow: 0 4px 14px rgba(234, 88, 12, 0.35); text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;">
+          <span>Comenzar Capacitación</span>
+          <svg viewBox="0 0 24 24" style="width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- SECCIÓN PRINCIPAL: RANKING DINÁMICO DE PARTICIPANTES -->
+    <section id="seccion-ranking">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 1rem; border-bottom: 2px solid #f1f5f9; padding-bottom: 1rem;">
+        <div>
+          <h2 style="font-size: 1.6rem; font-weight: 900; color: var(--text-main); margin: 0; display: flex; align-items: center; gap: 0.5rem;">
+            <span>🏆</span> ¿QUIÉN VA PRIMERO?
+          </h2>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.25rem 0 0 0; font-weight: 500;">
+            Marcador en vivo ordenado por módulos completados, puntos y aciertos.
+          </p>
+        </div>
+
+        <!-- Buscador sutil en tiempo real -->
+        <div style="display: flex; align-items: center; gap: 0.5rem; background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 0.4rem 0.85rem; width: 100%; max-width: 260px;">
+          <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; fill: none; stroke: #94a3b8; stroke-width: 2;">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input 
+            type="text" 
+            id="ranking-search-input" 
+            placeholder="Buscar participante..." 
+            style="border: none; outline: none; background: transparent; font-size: 0.85rem; width: 100%; color: var(--text-main);"
+          >
+        </div>
+      </div>
+
+      <!-- Contenedor del Ranking Dinámico / Marcador Vivo -->
+      <div id="ranking-live-list" class="ranking-live-list">
+        <!-- Se llena dinámicamente con las filas animadas de los participantes -->
+        <div class="ranking-loading-state" style="text-align: center; padding: 4rem 1rem; color: var(--text-muted);">
+          <div class="sbl-spinner" style="margin: 0 auto 1rem auto; width: 36px; height: 36px; border: 3.5px solid #fed7aa; border-top-color: #ea580c; border-radius: 50%; animation: spin 0.8s linear infinite;"></div>
+          <p style="font-weight: 600; font-size: 0.95rem;">Cargando marcador de seguridad desde Firebase...</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer" style="margin-top: auto; border-top: 1px solid #e2e8f0; padding: 1.5rem 1rem; text-align: center;">
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 0.35rem; justify-content: center;">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span style="font-weight: 900; color: #ea580c; letter-spacing: 0.05em; font-size: 1rem;">CODELCO</span>
+        <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">| Capacitación de Seguridad Laboral</span>
+      </div>
+      <p style="margin: 0; font-size: 0.75rem; color: var(--text-muted);">marcelo briceño 2026 &copy; Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Lógica en JS puro ES6 -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>

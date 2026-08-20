@@ -1,0 +1,6 @@
+{
+  "name": "Sistema de Capacitación y Quizzes",
+  "description": "Plataforma de capacitación con evaluaciones (Quiz 1-4 y Examen Final), registro de participantes y Dashboard de resultados utilizando Firebase Realtime Database.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
